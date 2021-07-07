@@ -11,10 +11,9 @@ GameObject:
   - component: {fileID: 677816732461616380}
   - component: {fileID: 677816732461616378}
   - component: {fileID: 677816732461616379}
-  - component: {fileID: 2622604408056446875}
   m_Layer: 10
   m_Name: Object
-  m_TagString: Untagged
+  m_TagString: Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -82,19 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2622604408056446875
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 677816732461616381}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &677816732584205101
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,9 +90,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 677816732584205100}
+  - component: {fileID: 9031377694613416428}
+  - component: {fileID: 5999187397471623759}
   m_Layer: 10
   m_Name: DangerPiece
-  m_TagString: Untagged
+  m_TagString: Piece
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,3 +114,30 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &9031377694613416428
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677816732584205101}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.13, y: 0.13, z: 0.13}
+  m_Center: {x: 0, y: 0.063, z: 0}
+--- !u!114 &5999187397471623759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 677816732584205101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee45db835cb327a4c867b422311f4e50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisPieceType: 1
+  PieceParticleGO: {fileID: 8355162830313786600, guid: f6438c9eb5ba8bb488bab065fbd84cb0, type: 3}

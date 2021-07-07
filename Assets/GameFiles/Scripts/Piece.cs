@@ -1,34 +1,33 @@
 using UnityEngine;
 
-public class Piece : MonoBehaviour
+public class Piece : MonoBehaviour, IInteractable
 {
     #region Properties
-    private const string PlayerLayerName = "Player";
-
     [SerializeField] PieceType thisPieceType = PieceType.NORMAL;
+    [SerializeField] GameObject PieceParticleGO;
     #endregion
 
     #region MonobehavioursFunctions
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag(PlayerLayerName))
-        {
-            if (thisPieceType == PieceType.NORMAL)
-            {
-                //TODO : Give Points
-                //TODO : Destroy the piece
-            }
-            else if (thisPieceType == PieceType.DANGER)
-            {
-                //TODO : Destroy the ball
-                //TODO : Destroy the piece
-                //TODO : Restart the level
-            }
-        }
-    }
+
     #endregion
 
     #region Private Functions
+
+    public void TouchAction()
+    {
+        if (thisPieceType == PieceType.NORMAL)
+        {
+            Debug.Log("Ball touched the normal piece");
+            Instantiate(PieceParticleGO, this.transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+        else if (thisPieceType == PieceType.DANGER)
+        {
+            Debug.Log("Ball touched the danger piece");
+            Instantiate(PieceParticleGO, this.transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
 
     #endregion
 
