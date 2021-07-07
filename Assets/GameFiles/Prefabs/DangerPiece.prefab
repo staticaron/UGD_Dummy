@@ -141,3 +141,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisPieceType: 1
   PieceParticleGO: {fileID: 8355162830313786600, guid: f6438c9eb5ba8bb488bab065fbd84cb0, type: 3}
+  particleChannelSO: {fileID: 11400000, guid: ec7096a908fb08748ad44905d37a4518, type: 2}
