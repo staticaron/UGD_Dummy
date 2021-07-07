@@ -5,6 +5,8 @@ public class Piece : MonoBehaviour, IInteractable
     #region Properties
     [SerializeField] PieceType thisPieceType = PieceType.NORMAL;
     [SerializeField] GameObject PieceParticleGO;
+
+    [SerializeField, Space] ParticleChannelSO particleChannelSO;
     #endregion
 
     #region MonobehavioursFunctions
@@ -18,13 +20,13 @@ public class Piece : MonoBehaviour, IInteractable
         if (thisPieceType == PieceType.NORMAL)
         {
             Debug.Log("Ball touched the normal piece");
-            Instantiate(PieceParticleGO, this.transform.position, Quaternion.identity);
+            particleChannelSO.RaiseEvent(ParticleType.NORMAL, transform);
             Destroy(gameObject);
         }
         else if (thisPieceType == PieceType.DANGER)
         {
             Debug.Log("Ball touched the danger piece");
-            Instantiate(PieceParticleGO, this.transform.position, Quaternion.identity);
+            particleChannelSO.RaiseEvent(ParticleType.DANGER, transform);
             Destroy(gameObject);
         }
     }
