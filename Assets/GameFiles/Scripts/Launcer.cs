@@ -54,8 +54,6 @@ public class Launcer : MonoBehaviour
     {
         Physics.Raycast(rayPoint.position, rayPoint.forward, out rayHitData, Mathf.Infinity, rayMask);
 
-        Debug.Log(rayHitData.distance);
-
         currentBallMoveState = BallMoveState.MOVING;
     }
     #endregion
