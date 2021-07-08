@@ -10,15 +10,16 @@ public class ObjectPooler : MonoBehaviour
     #region Properties
 
     //Singleton
-    public static ObjectPooler instance;
+    public static ObjectPooler instance = null;
 
     [SerializeField] List<PoolObject> poolObjects;                    //Objects whose pool has to be created
     [SerializeField] Dictionary<string, GameObject> poolObjectCache = new Dictionary<string, GameObject>();  //For faster fetching of gameObjects
 
     //Pools
-    [SerializeField, Space] List<GameObject> normalPool;
-    [SerializeField] List<GameObject> dangerPool;
-    [SerializeField] List<GameObject> particlePool;
+    [SerializeField, Space] List<GameObject> normalPool = new List<GameObject>();
+    [SerializeField] List<GameObject> dangerPool = new List<GameObject>();
+    [SerializeField] List<GameObject> particlePool = new List<GameObject>();
+    [SerializeField] List<GameObject> pieceLayerPool = new List<GameObject>();
 
     #endregion
 
@@ -40,9 +41,6 @@ public class ObjectPooler : MonoBehaviour
         }
 
         InitializePool();
-
-        //Testing
-        Debug.Log(GetGameObjectFromPool(PoolObjectType.DANGER).name);
     }
     #endregion
 
@@ -81,14 +79,20 @@ public class ObjectPooler : MonoBehaviour
             case "Particle":
                 particlePool.Add(g);
                 return g;
+            case "PieceLayer":
+                pieceLayerPool.Add(g);
+                return g;
             default:
-                Debug.LogWarning("A Pool Object was created but there was no pool for it");
+                Debug.LogWarning("A Pool Object was created but there was no pool for it", gameObject);
                 return null;
         }
     }
 
     private GameObject CreatePoolObject(PoolObjectType type)
     {
+        if (type == PoolObjectType.PIECELAYER) Debug.Log($"Extra Pool Object was created for Piece Layer");
+
+        //GameObject was created
         //Create an instance of the pool object
         GameObject g;
 
@@ -112,8 +116,14 @@ public class ObjectPooler : MonoBehaviour
                 particlePool.Add(g);
                 return g;
 
+            case PoolObjectType.PIECELAYER:
+                g = Instantiate(poolObjectCache["PieceLayer"], Vector3.zero, Quaternion.identity);
+                g.SetActive(false);
+                pieceLayerPool.Add(g);
+                return g;
+
             default:
-                Debug.LogWarning("A Pool Object was created but there was no pool for it");
+                Debug.LogWarning("A Pool Object was created but there was no pool for it", gameObject);
                 return null;
         }
     }
@@ -158,12 +168,23 @@ public class ObjectPooler : MonoBehaviour
                 }
                 break;
 
+            case PoolObjectType.PIECELAYER:
+
+                foreach (GameObject g in pieceLayerPool)
+                {
+                    if (g.activeInHierarchy == false)
+                    {
+                        return g;
+                    }
+                }
+                break;
+
             default:
                 Debug.LogError("The reqested pool object doesnot exist", gameObject);
                 return null;
         }
 
-        //Create an instant of the object and return it
+        //Since pool is filled, create an instant of the object and return it
         return CreatePoolObject(type);
     }
 

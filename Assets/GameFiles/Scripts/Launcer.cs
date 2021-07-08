@@ -26,10 +26,20 @@ public class Launcer : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+
+#if UNITY_STANDALONE
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             LaunchBall();
         }
+#endif
+#if UNITY_ANDROID
+        Touch t = Input.GetTouch(0);
+        if (Input.touchCount > 0 && t.phase == TouchPhase.Began)
+        {
+            LaunchBall();
+        }
+#endif
 
         if (currentBallMoveState == BallMoveState.MOVING)
         {
@@ -46,6 +56,8 @@ public class Launcer : MonoBehaviour
                 slider = 0;
             }
         }
+
+        Debug.DrawLine(rayPoint.position, rayPoint.position + new Vector3(0, -rayHitData.distance, 0), Color.green);
     }
     #endregion
 

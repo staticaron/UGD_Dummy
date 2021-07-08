@@ -7,6 +7,8 @@ public class Piece : MonoBehaviour, IInteractable
     [SerializeField] GameObject PieceParticleGO;
 
     [SerializeField, Space] ParticleChannelSO particleChannelSO;
+
+    private PieceSpawner parentSpawner = null;
     #endregion
 
     #region MonobehavioursFunctions
@@ -15,25 +17,30 @@ public class Piece : MonoBehaviour, IInteractable
 
     #region Private Functions
 
+    #endregion
+
+    #region Public Functions
+
     public void TouchAction()
     {
         if (thisPieceType == PieceType.NORMAL)
         {
-            Debug.Log("Ball touched the normal piece");
             particleChannelSO.RaiseEvent(ParticleType.NORMAL, transform);
-            Destroy(gameObject);
+            parentSpawner.NumberOfNormalPiece -= 1;
+            this.gameObject.SetActive(false);
         }
         else if (thisPieceType == PieceType.DANGER)
         {
-            Debug.Log("Ball touched the danger piece");
             particleChannelSO.RaiseEvent(ParticleType.DANGER, transform);
-            Destroy(gameObject);
+            this.gameObject.SetActive(false);
         }
     }
 
-    #endregion
+    public void SetParentSpawner(PieceSpawner parentSpawner)
+    {
+        this.parentSpawner = parentSpawner;
+    }
 
-    #region Public Functions
 
     #endregion
 }
