@@ -528,3 +528,6 @@ MonoBehaviour:
   dangerPiece: {fileID: 677816732584205101, guid: fe0164bbe0203bc4e87523f88330e1e1, type: 3}
   normalPercentage: 70
   dangerPercentage: 30
+  addLayerChannelSO: {fileID: 11400000, guid: 6b4ac18e62520e64d8f6da396fea717b, type: 2}
+  cylinderPushChannelSO: {fileID: 11400000, guid: 3ecf9554dae5a4640acf9c101603331f, type: 2}
+  numberOfNormalPiece: 0

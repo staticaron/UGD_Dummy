@@ -5,6 +5,8 @@ public class Ball : MonoBehaviour
     #region  Properties
     private const string PieceTagName = "Piece";
     private const string MainCylinderTagName = "MainCylinder";
+
+    private bool hit = false;
     #endregion
 
     #region  MonoBehaviourMethods
@@ -12,8 +14,13 @@ public class Ball : MonoBehaviour
     {
         if (other.CompareTag(PieceTagName) || other.CompareTag(MainCylinderTagName))
         {
-            //Execute the piece action on the other gameObject on ball touch 
-            other.GetComponent<IInteractable>().TouchAction();
+            //If not hit already
+            if (hit == false)
+            {
+                //Execute the piece action on the other gameObject on ball touch 
+                other.GetComponent<IInteractable>().TouchAction();
+                hit = true;
+            }
         }
     }
     #endregion
@@ -23,6 +30,9 @@ public class Ball : MonoBehaviour
     #endregion
 
     #region  Public Methods
-
+    public void SetHit(bool newHitValue)
+    {
+        hit = newHitValue;
+    }
     #endregion
 }

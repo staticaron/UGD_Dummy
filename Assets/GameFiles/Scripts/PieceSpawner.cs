@@ -17,10 +17,15 @@ public class PieceSpawner : MonoBehaviour
     [SerializeField, Space] int normalPercentage;
     [SerializeField] int dangerPercentage;
 
+    [SerializeField, Space] AddLayerChannelSO addLayerChannelSO;
+    [SerializeField] CylinderPushChannelSO cylinderPushChannelSO;
+
+    private List<GameObject> pieceOfThisLayer = new List<GameObject>();
+
     private ObjectPooler pooler = null;
     private StackSpawner parentStackSpawner;
 
-    [SerializeField]
+    [SerializeField, Space]
     int numberOfNormalPiece = 0;
 
     public int NumberOfNormalPiece
@@ -32,7 +37,14 @@ public class PieceSpawner : MonoBehaviour
     #endregion
 
     #region MonobehavioursFunctions
-
+    private void OnDisable()
+    {
+        //Disable all the unused pieces of this layer to be used by object pooler
+        foreach (GameObject item in pieceOfThisLayer)
+        {
+            item.SetActive(false);
+        }
+    }
     #endregion
 
     #region Private Functions
@@ -63,6 +75,9 @@ public class PieceSpawner : MonoBehaviour
             dangerRequest.transform.parent = this.transform;
             dangerRequest.GetComponent<Piece>().SetParentSpawner(this);
             dangerRequest.SetActive(true);
+
+            pieceOfThisLayer.Add(randomRequest);
+            pieceOfThisLayer.Add(dangerRequest);
         }
     }
 
@@ -89,10 +104,9 @@ public class PieceSpawner : MonoBehaviour
     {
         if (NumberOfNormalPiece <= 0)
         {
-            //TODO : Perform upward movement
-            Debug.Log("All the normal pieces destroyed");
-            parentStackSpawner.AddPieceLayerToBottom();
             gameObject.SetActive(false);
+            addLayerChannelSO.RaiseEvent();
+            cylinderPushChannelSO.RaiseEvent(1);
         }
     }
 
