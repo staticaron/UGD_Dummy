@@ -3,7 +3,8 @@ using UnityEngine;
 public class Launcer : MonoBehaviour
 {
     #region Properties
-    [SerializeField, Space] Transform ball;
+    [SerializeField, Space] Transform ballTransform;
+    [SerializeField, Space] Ball ball;
 
     [SerializeField] AnimationCurve ballMovementCurve;
     [SerializeField] float ballSpeedModifier = 1;
@@ -15,13 +16,14 @@ public class Launcer : MonoBehaviour
 
     [SerializeField] RaycastHit rayHitData;
     [SerializeField] Vector3 initialPos;
-    [SerializeField] float slider = 0f;
+    [SerializeField, Range(0, 1)] float slider = 0f;
     #endregion
 
     #region MonobehavioursFunctions
     private void Start()
     {
-        initialPos = ball.position;
+        initialPos = ballTransform.position;
+        ball = ballTransform.GetComponent<Ball>();
     }
 
     void Update()
@@ -48,11 +50,12 @@ public class Launcer : MonoBehaviour
 
             float yVal = ballMovementCurve.Evaluate(slider) * rayHitData.distance;
 
-            ball.position = new Vector3(initialPos.x, initialPos.y - yVal, initialPos.z);
+            ballTransform.position = new Vector3(initialPos.x, initialPos.y - yVal, initialPos.z);
 
             if (slider == 1)
             {
                 currentBallMoveState = BallMoveState.READY;
+                ball.SetHit(false);
                 slider = 0;
             }
         }

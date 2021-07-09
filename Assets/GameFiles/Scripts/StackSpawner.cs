@@ -11,6 +11,9 @@ public class StackSpawner : MonoBehaviour
     [SerializeField] GameObject pieceLayerGO;       //Actual Piece Layer Prefab
     [SerializeField] float distanceBetweenLayers;   //The distance between the piece layers
 
+    [SerializeField] AddLayerChannelSO addLayerChannelSO;
+
+    private Vector2 initialPosition;
     private ObjectPooler pooler;
 
     #endregion
@@ -21,9 +24,20 @@ public class StackSpawner : MonoBehaviour
         //References
         pooler = ObjectPooler.instance;
 
+        initialPosition = transform.position;
+
+        //Subscribe to events
+        addLayerChannelSO.EAddPieceLayerAtBottom += () => AddPieceLayerAtIndex(stackHeight);
+
         //Create Stack when the game starts
         CreateStack(stackHeight);
     }
+
+    private void OnDisable()
+    {
+        addLayerChannelSO.EAddPieceLayerAtBottom -= () => AddPieceLayerAtIndex(stackHeight);
+    }
+
     #endregion
 
     #region Private Functions
@@ -33,17 +47,7 @@ public class StackSpawner : MonoBehaviour
     {
         for (int i = 0; i < stackHeight; i++)
         {
-            float yVal = transform.position.y - distanceBetweenLayers * i;
-
-            //Create the layer
-            GameObject g = pooler.GetGameObjectFromPool(PoolObjectType.PIECELAYER);
-            g.transform.parent = this.transform;
-            g.transform.position = new Vector3(0, yVal, 0);
-            g.SetActive(true);
-
-            //Generate the random piece arrangement
-            PieceSpawner spawner = g.GetComponent<PieceSpawner>();
-            spawner.SpawnPieces();
+            AddPieceLayerAtIndex(i);
         }
     }
 
@@ -51,12 +55,37 @@ public class StackSpawner : MonoBehaviour
 
     #region Public Functions
 
-    public void AddPieceLayerToBottom()
+    public void AddPieceLayerAtIndex(int index)
     {
+        float yVal = initialPosition.y - distanceBetweenLayers * index;
+
+        //Create the layer
         GameObject g = pooler.GetGameObjectFromPool(PoolObjectType.PIECELAYER);
         g.transform.parent = this.transform;
-        g.transform.position = new Vector3(0, transform.position.y - stackHeight * distanceBetweenLayers, 0);
+        g.transform.position = new Vector3(0, yVal, 0);
+        g.GetComponent<PieceSpawner>().SetParentSpawner(this);
         g.SetActive(true);
+
+        //Generate the random piece arrangement
+        PieceSpawner spawner = g.GetComponent<PieceSpawner>();
+        spawner.SpawnPieces();
+    }
+
+    [ContextMenu("Add Piece to the bottom")]
+    public void AddPieceLayerAtIndex()
+    {
+        float yVal = initialPosition.y - distanceBetweenLayers * stackHeight;
+
+        //Create the layer
+        GameObject g = pooler.GetGameObjectFromPool(PoolObjectType.PIECELAYER);
+        g.transform.parent = this.transform;
+        g.transform.position = new Vector3(0, yVal, 0);
+        g.GetComponent<PieceSpawner>().SetParentSpawner(this);
+        g.SetActive(true);
+
+        //Generate the random piece arrangement
+        PieceSpawner spawner = g.GetComponent<PieceSpawner>();
+        spawner.SpawnPieces();
     }
 
     #endregion
