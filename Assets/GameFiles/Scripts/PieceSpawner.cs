@@ -37,13 +37,25 @@ public class PieceSpawner : MonoBehaviour
     #endregion
 
     #region MonobehavioursFunctions
-    private void OnDisable()
+    private void Start()
     {
-        //Disable all the unused pieces of this layer to be used by object pooler
+        pooler = ObjectPooler.instance;
+    }
+
+    private void OnDestroy()
+    {
+        ReturnPieceToPooler();
+    }
+
+    private void ReturnPieceToPooler()
+    {
         foreach (GameObject item in pieceOfThisLayer)
         {
             item.SetActive(false);
+            item.transform.parent = pooler.transform;
+
         }
+        pieceOfThisLayer = new List<GameObject>();
     }
     #endregion
 
@@ -104,6 +116,8 @@ public class PieceSpawner : MonoBehaviour
     {
         if (NumberOfNormalPiece <= 0)
         {
+            ReturnPieceToPooler();
+            transform.parent = pooler.transform;
             gameObject.SetActive(false);
             addLayerChannelSO.RaiseEvent();
             cylinderPushChannelSO.RaiseEvent(1);
