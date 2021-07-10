@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class StackSpawner : MonoBehaviour
 {
@@ -27,7 +28,7 @@ public class StackSpawner : MonoBehaviour
         initialPosition = transform.position;
 
         //Subscribe to events
-        addLayerChannelSO.EAddPieceLayerAtBottom += () => AddPieceLayerAtIndex(stackHeight);
+        addLayerChannelSO.EAddPieceLayerAtBottom += AddPieceAtBottom;
 
         //Create Stack when the game starts
         CreateStack(stackHeight);
@@ -35,7 +36,7 @@ public class StackSpawner : MonoBehaviour
 
     private void OnDisable()
     {
-        addLayerChannelSO.EAddPieceLayerAtBottom -= () => AddPieceLayerAtIndex(stackHeight);
+        addLayerChannelSO.EAddPieceLayerAtBottom -= AddPieceAtBottom;
     }
 
     #endregion
@@ -51,34 +52,24 @@ public class StackSpawner : MonoBehaviour
         }
     }
 
-    #endregion
+    [ContextMenu("Holp")]
+    public void AddPieceAtBottom()
+    {
+        AddPieceLayerAtIndex(stackHeight);
+    }
 
-    #region Public Functions
-
-    public void AddPieceLayerAtIndex(int index)
+    private void AddPieceLayerAtIndex(int index)
     {
         float yVal = initialPosition.y - distanceBetweenLayers * index;
 
         //Create the layer
-        GameObject g = pooler.GetGameObjectFromPool(PoolObjectType.PIECELAYER);
-        g.transform.parent = this.transform;
-        g.transform.position = new Vector3(0, yVal, 0);
-        g.GetComponent<PieceSpawner>().SetParentSpawner(this);
-        g.SetActive(true);
-
-        //Generate the random piece arrangement
-        PieceSpawner spawner = g.GetComponent<PieceSpawner>();
-        spawner.SpawnPieces();
+        PreparePieceLayer(yVal);
     }
 
-    [ContextMenu("Add Piece to the bottom")]
-    public void AddPieceLayerAtIndex()
+    private void PreparePieceLayer(float yVal)
     {
-        float yVal = initialPosition.y - distanceBetweenLayers * stackHeight;
-
-        //Create the layer
         GameObject g = pooler.GetGameObjectFromPool(PoolObjectType.PIECELAYER);
-        g.transform.parent = this.transform;
+        g.transform.parent = transform;
         g.transform.position = new Vector3(0, yVal, 0);
         g.GetComponent<PieceSpawner>().SetParentSpawner(this);
         g.SetActive(true);
@@ -87,6 +78,10 @@ public class StackSpawner : MonoBehaviour
         PieceSpawner spawner = g.GetComponent<PieceSpawner>();
         spawner.SpawnPieces();
     }
+
+    #endregion
+
+    #region Public Functions
 
     #endregion
 }

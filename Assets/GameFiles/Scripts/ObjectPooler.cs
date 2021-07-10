@@ -139,7 +139,7 @@ public class ObjectPooler : MonoBehaviour
 
                 foreach (GameObject g in normalPool)
                 {
-                    if (g?.activeInHierarchy == false)
+                    if (g != null && g.activeInHierarchy == false)
                     {
                         return g;
                     }
@@ -150,7 +150,7 @@ public class ObjectPooler : MonoBehaviour
 
                 foreach (GameObject g in dangerPool)
                 {
-                    if (g?.activeInHierarchy == false)
+                    if (g != null && g.activeInHierarchy == false)
                     {
                         return g;
                     }
@@ -161,7 +161,7 @@ public class ObjectPooler : MonoBehaviour
 
                 foreach (GameObject g in particlePool)
                 {
-                    if (g?.activeInHierarchy == false)
+                    if (g != null && g.activeInHierarchy == false)
                     {
                         return g;
                     }
@@ -172,9 +172,7 @@ public class ObjectPooler : MonoBehaviour
 
                 foreach (GameObject g in pieceLayerPool)
                 {
-                    if (g == null) break;
-
-                    if (g.activeInHierarchy == false)
+                    if (g != null && g.activeInHierarchy == false)
                     {
                         return g;
                     }

@@ -7,6 +7,7 @@ public class Piece : MonoBehaviour, IInteractable
     [SerializeField] GameObject PieceParticleGO;
 
     [SerializeField, Space] ParticleChannelSO particleChannelSO;
+    [SerializeField] WindowChannelSO windowChannelSO;
 
     private PieceSpawner parentSpawner = null;
     #endregion
@@ -31,7 +32,15 @@ public class Piece : MonoBehaviour, IInteractable
         }
         else if (thisPieceType == PieceType.DANGER)
         {
+            //Spawn the particle effect at the position
             particleChannelSO.RaiseEvent(ParticleType.DANGER, transform);
+
+            //TODO : Show gameOver UI 
+            windowChannelSO.RaiseShowGameOverUIEvent();
+
+            //TODO : Stop the rotation of the main cylinder
+
+            //Disable the gameObject to be used by the object pooler
             this.gameObject.SetActive(false);
         }
     }
