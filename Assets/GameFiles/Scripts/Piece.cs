@@ -8,6 +8,7 @@ public class Piece : MonoBehaviour, IInteractable
 
     [SerializeField, Space] ParticleChannelSO particleChannelSO;
     [SerializeField] WindowChannelSO windowChannelSO;
+    [SerializeField] ScoreChannelSO scoreChannelSO;
 
     private PieceSpawner parentSpawner = null;
     #endregion
@@ -28,6 +29,7 @@ public class Piece : MonoBehaviour, IInteractable
         {
             particleChannelSO.RaiseEvent(ParticleType.NORMAL, transform);
             parentSpawner.NumberOfNormalPiece -= 1;
+            scoreChannelSO.RaiseUdpateScoreEvent(1);
             this.gameObject.SetActive(false);
         }
         else if (thisPieceType == PieceType.DANGER)
@@ -35,7 +37,6 @@ public class Piece : MonoBehaviour, IInteractable
             //Spawn the particle effect at the position
             particleChannelSO.RaiseEvent(ParticleType.DANGER, transform);
 
-            //TODO : Show gameOver UI 
             windowChannelSO.RaiseShowGameOverUIEvent();
 
             //TODO : Stop the rotation of the main cylinder

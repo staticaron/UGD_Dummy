@@ -7,6 +7,7 @@ public class ParticleManager : MonoBehaviour
 
     [SerializeField, Space] Material noramlMaterial;
     [SerializeField] Material dangerMaterial;
+    [SerializeField] Material ballMaterial;
 
     private ObjectPooler pooler;
     #endregion
@@ -44,6 +45,10 @@ public class ParticleManager : MonoBehaviour
         else if (type == ParticleType.DANGER)
         {
             particleRequest.GetComponent<ParticleSystemRenderer>().material = dangerMaterial;
+        }
+        else if (type == ParticleType.BALL)
+        {
+            particleRequest.GetComponent<ParticleSystemRenderer>().material = ballMaterial;
         }
 
         particleRequest.SetActive(true);

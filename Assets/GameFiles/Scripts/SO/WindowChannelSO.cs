@@ -6,6 +6,9 @@ public class WindowChannelSO : ScriptableObject
     public delegate void ShowGameOverUI();
     public event ShowGameOverUI EShowGameOverUI;
 
+    public delegate void WinUI();
+    public event WinUI EShowWinUI;
+
     public void RaiseShowGameOverUIEvent()
     {
         if (EShowGameOverUI == null)
@@ -15,6 +18,18 @@ public class WindowChannelSO : ScriptableObject
         else
         {
             EShowGameOverUI();
+        }
+    }
+
+    public void RaiseWinUIEvent()
+    {
+        if (EShowWinUI != null)
+        {
+            EShowWinUI();
+        }
+        else
+        {
+            Debug.LogWarning("Win UI event was called but no was listening to it");
         }
     }
 }

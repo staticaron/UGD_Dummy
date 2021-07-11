@@ -90,10 +90,6 @@ public class ObjectPooler : MonoBehaviour
 
     private GameObject CreatePoolObject(PoolObjectType type)
     {
-        if (type == PoolObjectType.PIECELAYER) Debug.Log($"Extra Pool Object was created for Piece Layer");
-
-        //GameObject was created
-        //Create an instance of the pool object
         GameObject g;
 
         switch (type)

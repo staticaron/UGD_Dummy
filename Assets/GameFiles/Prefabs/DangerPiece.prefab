@@ -108,7 +108,7 @@ Transform:
   m_GameObject: {fileID: 677816732584205101}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1.35}
+  m_LocalScale: {x: 1, y: 1, z: 1.5}
   m_Children:
   - {fileID: 677816732461616380}
   m_Father: {fileID: 0}
@@ -143,3 +143,4 @@ MonoBehaviour:
   PieceParticleGO: {fileID: 8355162830313786600, guid: f6438c9eb5ba8bb488bab065fbd84cb0, type: 3}
   particleChannelSO: {fileID: 11400000, guid: ec7096a908fb08748ad44905d37a4518, type: 2}
   windowChannelSO: {fileID: 11400000, guid: 5c6039212fa7a85429d8be2cea3dc034, type: 2}
+  scoreChannelSO: {fileID: 11400000, guid: 49ccb08021984b04fa68caf6c22f61d1, type: 2}

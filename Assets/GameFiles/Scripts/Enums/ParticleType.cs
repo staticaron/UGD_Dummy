@@ -1,5 +1,6 @@
 public enum ParticleType
 {
     NORMAL,
-    DANGER
+    DANGER,
+    BALL
 }

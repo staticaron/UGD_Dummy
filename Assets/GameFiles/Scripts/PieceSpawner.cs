@@ -47,6 +47,7 @@ public class PieceSpawner : MonoBehaviour
         ReturnPieceToPooler();
     }
 
+    [ContextMenu("Return Piece to Pooler")]
     private void ReturnPieceToPooler()
     {
         foreach (GameObject item in pieceOfThisLayer)
@@ -55,11 +56,14 @@ public class PieceSpawner : MonoBehaviour
             item.transform.parent = pooler.transform;
 
         }
+        //Debug.Log("Piece returned to the pooler", pieceOfThisLayer[1]);
         pieceOfThisLayer = new List<GameObject>();
     }
     #endregion
 
     #region Private Functions
+
+    [ContextMenu("Spawn Pieces for this layer")]
     public void SpawnPieces()
     {
         if (pooler == null) pooler = ObjectPooler.instance;

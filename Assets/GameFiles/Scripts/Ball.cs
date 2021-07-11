@@ -7,9 +7,22 @@ public class Ball : MonoBehaviour
     private const string MainCylinderTagName = "MainCylinder";
 
     private bool hit = false;
+
+    [SerializeField] WindowChannelSO windowChannelSO;
+    [SerializeField] ParticleChannelSO particleChannelSO;
     #endregion
 
     #region  MonoBehaviourMethods
+    private void OnEnable()
+    {
+        windowChannelSO.EShowGameOverUI += DestroyBall;
+    }
+
+    private void OnDisable()
+    {
+        windowChannelSO.EShowGameOverUI -= DestroyBall;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(PieceTagName) || other.CompareTag(MainCylinderTagName))
@@ -26,6 +39,11 @@ public class Ball : MonoBehaviour
     #endregion
 
     #region  Private Methods
+    private void DestroyBall()
+    {
+        particleChannelSO.RaiseEvent(ParticleType.BALL, transform);
+        gameObject.SetActive(false);
+    }
 
     #endregion
 

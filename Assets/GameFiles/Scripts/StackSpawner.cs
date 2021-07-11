@@ -9,10 +9,14 @@ public class StackSpawner : MonoBehaviour
     #region Properties
 
     [SerializeField] int stackHeight = 5;           //Number of stack layers to be placed
+    [SerializeField] int stacksLeft = 0;
     [SerializeField] GameObject pieceLayerGO;       //Actual Piece Layer Prefab
     [SerializeField] float distanceBetweenLayers;   //The distance between the piece layers
 
+    [SerializeField] bool infiniteGeneration;
+
     [SerializeField] AddLayerChannelSO addLayerChannelSO;
+    [SerializeField] WindowChannelSO windowChannelSO;
 
     private Vector2 initialPosition;
     private ObjectPooler pooler;
@@ -25,20 +29,27 @@ public class StackSpawner : MonoBehaviour
         //References
         pooler = ObjectPooler.instance;
 
+        //Init
         initialPosition = transform.position;
-
-        //Subscribe to events
-        addLayerChannelSO.EAddPieceLayerAtBottom += AddPieceAtBottom;
+        stacksLeft = stackHeight;
 
         //Create Stack when the game starts
         CreateStack(stackHeight);
     }
 
-    private void OnDisable()
+    private void OnEnable()
     {
-        addLayerChannelSO.EAddPieceLayerAtBottom -= AddPieceAtBottom;
+        if (infiniteGeneration) addLayerChannelSO.EAddPieceLayerAtBottom += AddPieceAtBottom;
+
+        addLayerChannelSO.EAddPieceLayerAtBottom += StackCount;
     }
 
+    private void OnDisable()
+    {
+        if (infiniteGeneration) addLayerChannelSO.EAddPieceLayerAtBottom -= AddPieceAtBottom;
+
+        addLayerChannelSO.EAddPieceLayerAtBottom -= StackCount;
+    }
     #endregion
 
     #region Private Functions
@@ -49,6 +60,16 @@ public class StackSpawner : MonoBehaviour
         for (int i = 0; i < stackHeight; i++)
         {
             AddPieceLayerAtIndex(i);
+        }
+    }
+
+    private void StackCount()
+    {
+        stacksLeft -= 1;
+
+        if (stacksLeft <= 0)
+        {
+            windowChannelSO.RaiseWinUIEvent();
         }
     }
 
