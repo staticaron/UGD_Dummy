@@ -3,7 +3,7 @@ using UnityEngine;
 public class Piece : MonoBehaviour, IInteractable
 {
     #region Properties
-    [SerializeField] PieceType thisPieceType = PieceType.NORMAL;
+    [SerializeField] PieceType thisPieceType = PieceType.NORMAL_PURPLE;
     [SerializeField] GameObject PieceParticleGO;
 
     [SerializeField, Space] ParticleChannelSO particleChannelSO;
@@ -25,9 +25,23 @@ public class Piece : MonoBehaviour, IInteractable
 
     public void TouchAction()
     {
-        if (thisPieceType == PieceType.NORMAL)
+        if (thisPieceType == PieceType.NORMAL_PURPLE)
         {
-            particleChannelSO.RaiseEvent(ParticleType.NORMAL, transform);
+            particleChannelSO.RaiseEvent(ParticleType.NORMAL_PURPLE, transform);
+            parentSpawner.NumberOfNormalPiece -= 1;
+            scoreChannelSO.RaiseUdpateScoreEvent(1);
+            this.gameObject.SetActive(false);
+        }
+        else if (thisPieceType == PieceType.NORMAL_ORANGE)
+        {
+            particleChannelSO.RaiseEvent(ParticleType.NORMAL_ORANGE, transform);
+            parentSpawner.NumberOfNormalPiece -= 1;
+            scoreChannelSO.RaiseUdpateScoreEvent(1);
+            this.gameObject.SetActive(false);
+        }
+        else if (thisPieceType == PieceType.NORMAL_RED)
+        {
+            particleChannelSO.RaiseEvent(ParticleType.NORMAL_RED, transform);
             parentSpawner.NumberOfNormalPiece -= 1;
             scoreChannelSO.RaiseUdpateScoreEvent(1);
             this.gameObject.SetActive(false);

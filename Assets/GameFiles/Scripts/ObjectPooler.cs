@@ -37,6 +37,7 @@ public class ObjectPooler : MonoBehaviour
         //Create Cache
         foreach (PoolObject item in poolObjects)
         {
+            item.SetPoolObjectVariation();
             poolObjectCache.Add(item.poolObjectName, item.poolObject);
         }
 

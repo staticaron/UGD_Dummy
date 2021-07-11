@@ -1,6 +1,8 @@
 public enum ParticleType
 {
-    NORMAL,
+    NORMAL_PURPLE,
+    NORMAL_RED,
+    NORMAL_ORANGE,
     DANGER,
     BALL
 }

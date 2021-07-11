@@ -6,6 +6,8 @@ public class ParticleManager : MonoBehaviour
     [SerializeField] ParticleChannelSO particleChannelSO;
 
     [SerializeField, Space] Material noramlMaterial;
+    [SerializeField, Space] Material orangeMaterial;
+    [SerializeField, Space] Material redMaterial;
     [SerializeField] Material dangerMaterial;
     [SerializeField] Material ballMaterial;
 
@@ -38,9 +40,17 @@ public class ParticleManager : MonoBehaviour
         particleRequest.transform.rotation = t.rotation;
 
         //Set the appropriate material to the particle
-        if (type == ParticleType.NORMAL)
+        if (type == ParticleType.NORMAL_PURPLE)
         {
             particleRequest.GetComponent<ParticleSystemRenderer>().material = noramlMaterial;
+        }
+        else if (type == ParticleType.NORMAL_RED)
+        {
+            particleRequest.GetComponent<ParticleSystemRenderer>().material = redMaterial;
+        }
+        else if (type == ParticleType.NORMAL_ORANGE)
+        {
+            particleRequest.GetComponent<ParticleSystemRenderer>().material = orangeMaterial;
         }
         else if (type == ParticleType.DANGER)
         {

@@ -92,6 +92,7 @@ public class StackSpawner : MonoBehaviour
         GameObject g = pooler.GetGameObjectFromPool(PoolObjectType.PIECELAYER);
         g.transform.parent = transform;
         g.transform.position = new Vector3(0, yVal, 0);
+        g.transform.rotation = transform.rotation;
         g.GetComponent<PieceSpawner>().SetParentSpawner(this);
         g.SetActive(true);
 
